@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class MainMenuScreen implements Screen
 {
     final GravSwarm game;
-    OrthographicCamera camera;
+    //OrthographicCamera camera;
 
     Texture appLogo;
     Texture button1_Start;
@@ -24,9 +24,9 @@ public class MainMenuScreen implements Screen
     {
         game = thisGame;
 
-        camera = new OrthographicCamera();
-        //camera.setToOrtho(false);
-        camera.setToOrtho(false, 800, 480);
+        //camera = new OrthographicCamera();
+        //     camera.setToOrtho(false);
+        //camera.setToOrtho(false, 800, 480);
 
         appLogo = new Texture("logo1.png");
         button1_Start = new Texture("1-start.png");
@@ -47,17 +47,17 @@ public class MainMenuScreen implements Screen
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
+        //camera.update();
 
-        game.batch.setProjectionMatrix(camera.combined);
+        //game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
 
         //game.font.draw(game.batch, "Test", 100, 150);
-        game.batch.draw(appLogo, 30, 65);
-        game.batch.draw(button1_Start, 450, 280);
-        game.batch.draw(button2_Instructions, 450, 230);
-        game.batch.draw(button3_Settings, 450, 180);
-        game.batch.draw(button4_Exit, 450, 130);
+        game.batch.draw(appLogo, 120, 190);
+        game.batch.draw(button1_Start, 600, 450);
+        game.batch.draw(button2_Instructions, 600, 360);
+        game.batch.draw(button3_Settings, 600, 270);
+        game.batch.draw(button4_Exit, 600, 180);
 
         game.batch.end();
 

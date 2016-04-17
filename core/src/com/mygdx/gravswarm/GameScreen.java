@@ -18,7 +18,7 @@ public class GameScreen implements Screen
 {
 	final GravSwarm game;
 
-	OrthographicCamera camera;
+	//OrthographicCamera camera;
 	Vector3 touchPos;
 	Texture testLogoImg;
 
@@ -28,17 +28,17 @@ public class GameScreen implements Screen
 	{
 		this.game = thisGame;
 
-		camera = new OrthographicCamera();
-		//camera.setToOrtho(false);
-		camera.setToOrtho(false, 800, 480);
+		//camera = new OrthographicCamera();
+		//     camera.setToOrtho(false);
+		//camera.setToOrtho(false, 800, 480);
 
 		touchPos = new Vector3();
 
 		testLogoImg = new Texture("logo2.png");
 
 		testLogo = new Rectangle();
-		testLogo.x = 800 / 2 - 452 / 2;
-		testLogo.y = 20;
+		testLogo.x = 400;
+		testLogo.y = 140;
 		testLogo.width = 452;
 		testLogo.height = 452;
 	}
@@ -55,9 +55,9 @@ public class GameScreen implements Screen
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		camera.update();
+		//camera.update();
 
-		game.batch.setProjectionMatrix(camera.combined);
+		//game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
 		game.batch.draw(testLogoImg, testLogo.x, testLogo.y);
 		game.batch.end();
