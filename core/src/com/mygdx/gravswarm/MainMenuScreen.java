@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class MainMenuScreen implements Screen
 {
     final GravSwarm game;
-    //OrthographicCamera camera;
+    OrthographicCamera camera;
 
     Texture appLogo;
     Texture button1_Start;
@@ -24,9 +24,9 @@ public class MainMenuScreen implements Screen
     {
         game = thisGame;
 
-        //camera = new OrthographicCamera();
+        camera = new OrthographicCamera();
         //     camera.setToOrtho(false);
-        //camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, 1280, 720);
 
         appLogo = new Texture("logo1.png");
         button1_Start = new Texture("1-start.png");
@@ -47,9 +47,9 @@ public class MainMenuScreen implements Screen
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //camera.update();
+        camera.update();
 
-        //game.batch.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
 
         //game.font.draw(game.batch, "Test", 100, 150);
