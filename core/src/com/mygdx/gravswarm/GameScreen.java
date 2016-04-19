@@ -60,6 +60,9 @@ public class GameScreen implements Screen
 		game.batch.draw(testImg, testLogo.x, testLogo.y);
 		game.batch.end();
 
+		// allows us to return to the main menu
+		Gdx.input.setCatchBackKey(true);
+
 		if (Gdx.input.isKeyPressed(Input.Keys.BACK))
 		{
 			game.setScreen(new MainMenuScreen(game));
