@@ -1,13 +1,11 @@
 package com.mygdx.gravswarm;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -20,7 +18,7 @@ public class GameScreen implements Screen
 
 	OrthographicCamera camera;
 	Vector3 touchPos;
-	Texture testLogoImg;
+	Texture testImg;
 
 	Rectangle testLogo;
 
@@ -34,7 +32,7 @@ public class GameScreen implements Screen
 
 		touchPos = new Vector3();
 
-		testLogoImg = new Texture("logo2.png");
+		testImg = new Texture("game.png");
 
 		testLogo = new Rectangle();
 		testLogo.x = 400;
@@ -59,8 +57,14 @@ public class GameScreen implements Screen
 
 		game.batch.setProjectionMatrix(camera.combined);
 		game.batch.begin();
-		game.batch.draw(testLogoImg, testLogo.x, testLogo.y);
+		game.batch.draw(testImg, testLogo.x, testLogo.y);
 		game.batch.end();
+
+		if (Gdx.input.isKeyPressed(Input.Keys.BACK))
+		{
+			game.setScreen(new MainMenuScreen(game));
+			dispose();
+		}
 	}
 
 	@Override
@@ -90,6 +94,6 @@ public class GameScreen implements Screen
 	@Override
 	public void dispose()
 	{
-		testLogoImg.dispose();
+		testImg.dispose();
 	}
 }

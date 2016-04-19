@@ -5,6 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by Vlad M on 4/16/16.
@@ -61,13 +63,45 @@ public class MainMenuScreen implements Screen
 
         game.batch.end();
 
+
+        // defining our buttons location in the 3D space
+        Rectangle Start_button = new Rectangle(600, 450, button1_Start.getWidth(), button1_Start.getHeight());
+        Rectangle Instructions_button = new Rectangle(600, 360, button2_Instructions.getWidth(), button2_Instructions.getHeight());
+        Rectangle Settings_button = new Rectangle(600, 270, button3_Settings.getWidth(), button3_Settings.getHeight());
+        Rectangle Exit_button = new Rectangle(600, 180, button4_Exit.getWidth(), button4_Exit.getHeight());
+
+        Gdx.input.setCatchBackKey(true);
+
         // if the screen is touched, do:
-        // ** this code is temporary, it needs to be changed
-        // ** to handle all the specific button presses
         if (Gdx.input.isTouched())
         {
-            game.setScreen(new GameScreen(game));
-            dispose();
+            Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
+            camera.unproject(tmp);
+
+            // if the start button is pressed, go to the Game screen
+            if (Start_button.contains(tmp.x, tmp.y))
+            {
+                game.setScreen(new GameScreen(game));
+                dispose();
+            }
+            // if the instructions button is pressed, go to the Instructions screen
+            if (Instructions_button.contains(tmp.x, tmp.y))
+            {
+                game.setScreen(new InstructionsScreen(game));
+                dispose();
+            }
+            // if the settings button is pressed, go to the Settings screen
+            if (Settings_button.contains(tmp.x, tmp.y))
+            {
+                game.setScreen(new SettingsScreen(game));
+                dispose();
+            }
+            // if the exit button is pressed, exit the app
+            if (Exit_button.contains(tmp.x, tmp.y))
+            {
+                dispose();
+                System.exit(1);
+            }
         }
     }
 
