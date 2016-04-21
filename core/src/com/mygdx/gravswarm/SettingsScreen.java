@@ -65,6 +65,7 @@ public class SettingsScreen implements Screen
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK))
         {
+            Gdx.input.vibrate(25);
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }

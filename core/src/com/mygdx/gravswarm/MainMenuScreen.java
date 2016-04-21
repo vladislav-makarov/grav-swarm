@@ -77,6 +77,7 @@ public class MainMenuScreen implements Screen
         // if the screen is touched, do:
         if (Gdx.input.isTouched())
         {
+            Gdx.input.vibrate(25);
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             camera.unproject(tmp);
 
