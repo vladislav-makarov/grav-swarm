@@ -70,8 +70,8 @@ public class MainMenuScreen implements Screen
         Rectangle Settings_button = new Rectangle(600, 270, button3_Settings.getWidth(), button3_Settings.getHeight());
         Rectangle Exit_button = new Rectangle(600, 180, button4_Exit.getWidth(), button4_Exit.getHeight());
 
-        // setCatchBackKey is set to false here, so that when it's pressed in the main menu,
-        // our app will be exited to the device's home screen
+
+
         Gdx.input.setCatchBackKey(false);
 
         // if the screen is touched, do:

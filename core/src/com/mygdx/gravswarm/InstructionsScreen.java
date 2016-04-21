@@ -3,9 +3,11 @@ package com.mygdx.gravswarm;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -18,7 +20,9 @@ public class InstructionsScreen implements Screen
 
     OrthographicCamera camera;
     Vector3 touchPos;
-    Texture testImg;
+    Texture Instructions_header;
+    Texture Instructions_text;
+    //BitmapFont font;
 
     Rectangle testLogo;
 
@@ -32,13 +36,12 @@ public class InstructionsScreen implements Screen
 
         touchPos = new Vector3();
 
-        testImg = new Texture("instructions.png");
+        Instructions_header = new Texture("instructions.png");
+        Instructions_text = new Texture("instructions-text.png");
 
-        testLogo = new Rectangle();
-        testLogo.x = 400;
-        testLogo.y = 140;
-        testLogo.width = 452;
-        testLogo.height = 452;
+        //font = new BitmapFont();
+        //font.setColor(Color.DARK_GRAY);
+        //font.getData().setScale(2);
     }
 
     @Override
@@ -57,7 +60,10 @@ public class InstructionsScreen implements Screen
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(testImg, testLogo.x, testLogo.y);
+        game.batch.draw(Instructions_header, 0, 720-77);
+        game.batch.draw(Instructions_text, 1280/2 - 900/2, 80);
+        //font.draw(game.batch, " This is test of line #1 \n Hi, I'm line #2 \n nothing here... \n Line #4", 320, 170);
+
         game.batch.end();
 
         // allows us to return to the main menu
@@ -97,6 +103,7 @@ public class InstructionsScreen implements Screen
     @Override
     public void dispose()
     {
-        testImg.dispose();
+        Instructions_header.dispose();
+        Instructions_text.dispose();
     }
 }

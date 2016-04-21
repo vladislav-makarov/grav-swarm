@@ -35,8 +35,8 @@ public class SettingsScreen implements Screen
         testImg = new Texture("settings.png");
 
         testLogo = new Rectangle();
-        testLogo.x = 400;
-        testLogo.y = 140;
+        testLogo.x = 0;
+        testLogo.y = 720-77;
         testLogo.width = 452;
         testLogo.height = 452;
     }
