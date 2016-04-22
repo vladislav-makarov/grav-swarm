@@ -22,7 +22,7 @@ public class InstructionsScreen implements Screen
     Vector3 touchPos;
     Texture Instructions_header;
     Texture Instructions_text;
-    Texture testBackground;
+    Texture appBackground;
     //BitmapFont font;
 
     Rectangle testLogo;
@@ -39,7 +39,7 @@ public class InstructionsScreen implements Screen
 
         Instructions_header = new Texture("instructions.png");
         Instructions_text = new Texture("instructions-text.png");
-        testBackground = new Texture("test_background.png");
+        appBackground = new Texture("test_background.png");
 
         //font = new BitmapFont();
         //font.setColor(Color.DARK_GRAY);
@@ -62,7 +62,7 @@ public class InstructionsScreen implements Screen
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(testBackground, 0, 0);
+        game.batch.draw(appBackground, 0, 0);
         game.batch.draw(Instructions_header, 0, 720-86);
         game.batch.draw(Instructions_text, 1280/2 - 989/2, 55);
         //font.draw(game.batch, " This is test of line #1 \n Hi, I'm line #2 \n nothing here... \n Line #4", 320, 170);
@@ -109,6 +109,6 @@ public class InstructionsScreen implements Screen
     {
         Instructions_header.dispose();
         Instructions_text.dispose();
-        testBackground.dispose();
+        appBackground.dispose();
     }
 }

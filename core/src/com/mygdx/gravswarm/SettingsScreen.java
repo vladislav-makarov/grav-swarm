@@ -19,7 +19,7 @@ public class SettingsScreen implements Screen
     OrthographicCamera camera;
     Vector3 touchPos;
     Texture Settings_header;
-    Texture testBackground;
+    Texture appBackground;
 
     public SettingsScreen (final GravSwarm thisGame)
     {
@@ -32,7 +32,7 @@ public class SettingsScreen implements Screen
         touchPos = new Vector3();
 
         Settings_header = new Texture("settings.png");
-        testBackground = new Texture("test_background.png");
+        appBackground = new Texture("test_background.png");
     }
 
     @Override
@@ -51,7 +51,7 @@ public class SettingsScreen implements Screen
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(testBackground, 0, 0);
+        game.batch.draw(appBackground, 0, 0);
         game.batch.draw(Settings_header, 0, 720-86);
         game.batch.end();
 
@@ -94,6 +94,6 @@ public class SettingsScreen implements Screen
     public void dispose()
     {
         Settings_header.dispose();
-        testBackground.dispose();
+        appBackground.dispose();
     }
 }

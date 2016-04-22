@@ -21,7 +21,7 @@ public class MainMenuScreen implements Screen
     Texture button2_Instructions;
     Texture button3_Settings;
     Texture button4_Exit;
-    Texture testBackground;
+    Texture appBackground;
 
     public MainMenuScreen(final GravSwarm thisGame)
     {
@@ -36,7 +36,7 @@ public class MainMenuScreen implements Screen
         button2_Instructions = new Texture("2-instructions.png");
         button3_Settings = new Texture("3-settings.png");
         button4_Exit = new Texture("4-exit.png");
-        testBackground = new Texture("test_background.png");
+        appBackground = new Texture("test_background.png");
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MainMenuScreen implements Screen
         game.batch.begin();
 
         //game.font.draw(game.batch, "Test", 100, 150);
-        game.batch.draw(testBackground, 0, 0);
+        game.batch.draw(appBackground, 0, 0);
         game.batch.draw(appLogo, 120, 190);
         game.batch.draw(button1_Start, 600, 450);
         game.batch.draw(button2_Instructions, 600, 360);
@@ -142,6 +142,6 @@ public class MainMenuScreen implements Screen
         button2_Instructions.dispose();
         button3_Settings.dispose();
         button4_Exit.dispose();
-        testBackground.dispose();
+        appBackground.dispose();
     }
 }
