@@ -1,6 +1,5 @@
 package com.mygdx.gravswarm;
 
-
 /**
  * Created by Vlad M on 4/25/16.
  * This is the new settings class
@@ -10,8 +9,8 @@ public class Settings
     /*==================== Settings class variables ====================*/
     private int INITIAL_MOONS_TO_SPAWN = 2000;
 
-    private enum BOUNDARY_MODE { warp, reflect, despawn, respawn, none }
-    private BOUNDARY_MODE B_MODE_VALUE;
+    public enum BOUNDARY_MODE { warp, reflect, despawn, respawn, none }
+    private BOUNDARY_MODE B_MODE_VALUE = BOUNDARY_MODE.none;
 
     private int WORKER_THREADS = 3;
     private float GRAVITY_MAGNITUDE = 1f;
