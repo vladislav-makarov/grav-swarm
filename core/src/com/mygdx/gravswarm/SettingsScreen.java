@@ -6,15 +6,20 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
  * Created by Vlad M on 4/18/16.
  */
-public class SettingsScreen implements Screen
+public class SettingsScreen extends Settings implements Screen
 {
     final GravSwarm game;
+
+    Stage stage;
+    Table table;
 
     OrthographicCamera camera;
     Vector3 touchPos;
@@ -25,8 +30,11 @@ public class SettingsScreen implements Screen
     {
         this.game = thisGame;
 
+        stage = new Stage(new ScreenViewport());
+        table = new Table();
+        Gdx.input.setInputProcessor(stage);
+
         camera = new OrthographicCamera();
-        //     camera.setToOrtho(false);
         camera.setToOrtho(false, 1280, 720);
 
         touchPos = new Vector3();
@@ -48,6 +56,9 @@ public class SettingsScreen implements Screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
+
+        stage.act(delta);
+        stage.draw();
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
@@ -93,6 +104,8 @@ public class SettingsScreen implements Screen
     @Override
     public void dispose()
     {
+        game.dispose();
+        stage.dispose();
         Settings_header.dispose();
         appBackground.dispose();
     }
