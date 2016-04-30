@@ -104,7 +104,6 @@ public class SettingsScreen extends Settings implements Screen
     @Override
     public void dispose()
     {
-        game.dispose();
         stage.dispose();
         Settings_header.dispose();
         appBackground.dispose();
