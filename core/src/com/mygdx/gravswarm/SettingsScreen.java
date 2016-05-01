@@ -53,6 +53,7 @@ public class SettingsScreen extends Settings implements TextInputListener, Scree
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
+        camera.update();
 
         touchPos = new Vector3();
 
@@ -113,8 +114,6 @@ public class SettingsScreen extends Settings implements TextInputListener, Scree
     {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        camera.update();
 
         /*====================== NEW CODE ======================*/
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
