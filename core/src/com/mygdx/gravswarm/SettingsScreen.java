@@ -60,7 +60,7 @@ public class SettingsScreen extends Settings implements TextInputListener, Scree
         appBackground = new Texture("test_background.png");
     }
 
-    /*=================================================== NEW CODE ======================================================*/
+    /*==================================================== NEW CODE ======================================================*/
     public void create()
     {
         batch = new SpriteBatch();
