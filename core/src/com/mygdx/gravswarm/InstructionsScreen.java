@@ -23,16 +23,14 @@ public class InstructionsScreen implements Screen
     Texture Instructions_header;
     Texture Instructions_text;
     Texture appBackground;
-    //BitmapFont font;
+    Texture backButton;
 
-    Rectangle testLogo;
 
     public InstructionsScreen (final GravSwarm thisGame)
     {
         this.game = thisGame;
 
         camera = new OrthographicCamera();
-        //     camera.setToOrtho(false);
         camera.setToOrtho(false, 1280, 720);
 
         touchPos = new Vector3();
@@ -40,10 +38,7 @@ public class InstructionsScreen implements Screen
         Instructions_header = new Texture("instructions.png");
         Instructions_text = new Texture("instructions-text.png");
         appBackground = new Texture("test_background.png");
-
-        //font = new BitmapFont();
-        //font.setColor(Color.DARK_GRAY);
-        //font.getData().setScale(2);
+        backButton = new Texture("backButton.png");
     }
 
     @Override
@@ -64,13 +59,30 @@ public class InstructionsScreen implements Screen
         game.batch.begin();
         game.batch.draw(appBackground, 0, 0);
         game.batch.draw(Instructions_header, 0, 720-86);
-        game.batch.draw(Instructions_text, 1280/2 - 989/2, 55);
-        //font.draw(game.batch, " This is test of line #1 \n Hi, I'm line #2 \n nothing here... \n Line #4", 320, 170);
+        game.batch.draw(Instructions_text, 1280/2 - 1062/2, 25);
+        game.batch.draw(backButton, 0, 720-86);
 
         game.batch.end();
 
+        Rectangle RBackButton = new Rectangle(0, 720-86, backButton.getWidth(), backButton.getHeight());
+
         // allows us to return to the main menu
         Gdx.input.setCatchBackKey(true);
+
+        // if the screen is touched, do:
+        if (Gdx.input.isTouched())
+        {
+            Vector3 tmp = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(tmp);
+
+
+            // if on-screen back button is pressed
+            if (RBackButton.contains(tmp.x, tmp.y)) {
+                Gdx.input.vibrate(25);
+                game.setScreen(new MainMenuScreen(game));
+                dispose();
+            }
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK))
         {
