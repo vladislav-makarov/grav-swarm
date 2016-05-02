@@ -71,6 +71,40 @@ public class SettingsScreen extends Settings implements Screen
     Texture Under_Dev;
 
 
+    // defining BackButton's location in the 3D space (value #3 = button's width, value #4 = button's height)
+    Rectangle RBackButton = new Rectangle(0, 720-86, 100, 86);
+
+    // defining NumberOfMoons_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
+    Rectangle RNumberOfMoons_option1 = new Rectangle(40+458+40, (720-86-100), 107, 62);
+    Rectangle RNumberOfMoons_option2 = new Rectangle(40+458+40+(107+20), (720-86-100), 108, 62);
+    Rectangle RNumberOfMoons_option3 = new Rectangle(40+458+40+(107+20)+(108+20), (720-86-100), 110, 62);
+    Rectangle RNumberOfMoons_option4 = new Rectangle(40+458+40+(107+20)+(108+20)+(110+20), (720-86-100), 109, 62);
+
+    // defining BoundaryMode_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
+    Rectangle RBoundaryMode_option1 = new Rectangle(40+409+40, (720-86-100)-(80*1), 113, 62);
+    Rectangle RBoundaryMode_option2 = new Rectangle(40+409+40+(113+20), (720-86-100)-(80*1), 115, 62);
+    Rectangle RBoundaryMode_option3 = new Rectangle(40+409+40+(113+20)+(115+20), (720-86-100)-(80*1), 140, 62);
+    Rectangle RBoundaryMode_option4 = new Rectangle(40+409+40+(113+20)+(115+20)+(140+20), (720-86-100)-(80*1), 191, 62);
+
+    // defining WorkerThreads_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
+    Rectangle RWorkerThreads_option1 = new Rectangle(40+414+40, (720-86-100)-(80*2), 64, 62);
+    Rectangle RWorkerThreads_option2 = new Rectangle(40+414+40+(64+20), (720-86-100)-(80*2), 65, 62);
+    Rectangle RWorkerThreads_option3 = new Rectangle(40+414+40+(64+20)+(65+20), (720-86-100)-(80*2),  65, 62);
+    Rectangle RWorkerThreads_option4 = new Rectangle(40+414+40+(64+20)+(65+20)+(65+20), (720-86-100)-(80*2),  81, 62);
+
+    // defining LightIntensity_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
+    Rectangle RLightIntensity_option1 = new Rectangle(40+370+40, (720-86-100)-(80*5), 132, 62);
+    Rectangle RLightIntensity_option2 = new Rectangle(40+370+40+(132+20), (720-86-100)-(80*5), 134, 62);
+    Rectangle RLightIntensity_option3 = new Rectangle(40+370+40+(132+20)+(134+20), (720-86-100)-(80*5), 132, 62);
+    Rectangle RLightIntensity_option4 = new Rectangle(40+370+40+(132+20)+(134+20)+(132+20), (720-86-100)-(80*5), 133, 62);
+
+    // defining TouchDepth_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
+    Rectangle RTouchDepth_option1 = new Rectangle(40+324+40, (720-86-100)-(80*6), 89, 62);
+    Rectangle RTouchDepth_option2 = new Rectangle(40+324+40+(89+20), (720-86-100)-(80*6), 89, 62);
+    Rectangle RTouchDepth_option3 = new Rectangle(40+324+40+(89+20)+(89+20), (720-86-100)-(80*6), 89, 62);
+    Rectangle RTouchDepth_option4 = new Rectangle(40+324+40+(89+20)+(89+20)+(89+20), (720-86-100)-(80*6), 88, 62);
+
+
     public SettingsScreen (final GravSwarm thisGame)
     {
         this.game = thisGame;
@@ -201,33 +235,6 @@ public class SettingsScreen extends Settings implements Screen
         game.batch.end();
 
 
-        Rectangle RBackButton = new Rectangle(0, 720-86, backButton.getWidth(), backButton.getHeight());
-
-        Rectangle RNumberOfMoons_option1 = new Rectangle(40+458+40, (720-86-100), NumberOfMoons_option1.getWidth(), NumberOfMoons_option1.getHeight());
-        Rectangle RNumberOfMoons_option2 = new Rectangle(40+458+40+(107+20), (720-86-100), NumberOfMoons_option2.getWidth(), NumberOfMoons_option2.getHeight());
-        Rectangle RNumberOfMoons_option3 = new Rectangle(40+458+40+(107+20)+(108+20), (720-86-100), NumberOfMoons_option3.getWidth(), NumberOfMoons_option3.getHeight());
-        Rectangle RNumberOfMoons_option4 = new Rectangle(40+458+40+(107+20)+(108+20)+(110+20), (720-86-100), NumberOfMoons_option4.getWidth(), NumberOfMoons_option4.getHeight());
-
-        Rectangle RBoundaryMode_option1 = new Rectangle(40+409+40, (720-86-100)-(80*1), BoundaryMode_option1.getWidth(), BoundaryMode_option1.getHeight());
-        Rectangle RBoundaryMode_option2 = new Rectangle(40+409+40+(113+20), (720-86-100)-(80*1), BoundaryMode_option2.getWidth(), BoundaryMode_option2.getHeight());
-        Rectangle RBoundaryMode_option3 = new Rectangle(40+409+40+(113+20)+(115+20), (720-86-100)-(80*1), BoundaryMode_option3.getWidth(), BoundaryMode_option3.getHeight());
-        Rectangle RBoundaryMode_option4 = new Rectangle(40+409+40+(113+20)+(115+20)+(140+20), (720-86-100)-(80*1), BoundaryMode_option4.getWidth(), BoundaryMode_option4.getHeight());
-
-        Rectangle RWorkerThreads_option1 = new Rectangle(40+414+40, (720-86-100)-(80*2), WorkerThreads_option1.getWidth(), WorkerThreads_option1.getHeight());
-        Rectangle RWorkerThreads_option2 = new Rectangle(40+414+40+(64+20), (720-86-100)-(80*2), WorkerThreads_option2.getWidth(), WorkerThreads_option2.getHeight());
-        Rectangle RWorkerThreads_option3 = new Rectangle(40+414+40+(64+20)+(65+20), (720-86-100)-(80*2), WorkerThreads_option3.getWidth(), WorkerThreads_option3.getHeight());
-        Rectangle RWorkerThreads_option4 = new Rectangle(40+414+40+(64+20)+(65+20)+(65+20), (720-86-100)-(80*2), WorkerThreads_option4.getWidth(), WorkerThreads_option4.getHeight());
-
-        Rectangle RLightIntensity_option1 = new Rectangle(40+370+40, (720-86-100)-(80*5), LightIntensity_option1.getWidth(), LightIntensity_option1.getHeight());
-        Rectangle RLightIntensity_option2 = new Rectangle(40+370+40+(132+20), (720-86-100)-(80*5), LightIntensity_option2.getWidth(), LightIntensity_option2.getHeight());
-        Rectangle RLightIntensity_option3 = new Rectangle(40+370+40+(132+20)+(134+20), (720-86-100)-(80*5), LightIntensity_option3.getWidth(), LightIntensity_option3.getHeight());
-        Rectangle RLightIntensity_option4 = new Rectangle(40+370+40+(132+20)+(134+20)+(132+20), (720-86-100)-(80*5), LightIntensity_option4.getWidth(), LightIntensity_option4.getHeight());
-
-        Rectangle RTouchDepth_option1 = new Rectangle(40+324+40, (720-86-100)-(80*6), TouchDepth_option1.getWidth(), TouchDepth_option1.getHeight());
-        Rectangle RTouchDepth_option2 = new Rectangle(40+324+40+(89+20), (720-86-100)-(80*6), TouchDepth_option2.getWidth(), TouchDepth_option2.getHeight());
-        Rectangle RTouchDepth_option3 = new Rectangle(40+324+40+(89+20)+(89+20), (720-86-100)-(80*6), TouchDepth_option3.getWidth(), TouchDepth_option3.getHeight());
-        Rectangle RTouchDepth_option4 = new Rectangle(40+324+40+(89+20)+(89+20)+(89+20), (720-86-100)-(80*6), TouchDepth_option4.getWidth(), TouchDepth_option4.getHeight());
-
 
         // allows us to return to the main menu
         Gdx.input.setCatchBackKey(true);
@@ -242,7 +249,7 @@ public class SettingsScreen extends Settings implements Screen
             // if on-screen back button is pressed
             if (RBackButton.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }
@@ -251,110 +258,110 @@ public class SettingsScreen extends Settings implements Screen
             /*================ NumberOfMoons - screen input handling ================*/
             if (RNumberOfMoons_option1.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setINITIAL_MOONS_TO_SPAWN(1000);     // set number of moons to 1000
             }
             if (RNumberOfMoons_option2.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setINITIAL_MOONS_TO_SPAWN(2000);     // set number of moons to 2000
             }
             if (RNumberOfMoons_option3.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setINITIAL_MOONS_TO_SPAWN(4000);     // set number of moons to 4000
             }
             if (RNumberOfMoons_option4.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setINITIAL_MOONS_TO_SPAWN(8000);     // set number of moons to 8000
             }
 
             /*================= BoundaryMode - screen input handling ================*/
             if (RBoundaryMode_option1.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setBOUNDARY_MODE(BOUNDARY_MODE.none);   // set boundary mode to 'none'
             }
             if (RBoundaryMode_option2.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setBOUNDARY_MODE(BOUNDARY_MODE.warp);   // set boundary mode to 'warp'
             }
             if (RBoundaryMode_option3.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setBOUNDARY_MODE(BOUNDARY_MODE.reflect);   // set boundary mode to 'reflect'
             }
             if (RBoundaryMode_option4.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setBOUNDARY_MODE(BOUNDARY_MODE.despawn);   // set boundary mode to 'despawn'
             }
 
             /*================ WorkerThreads - screen input handling ================*/
             if (RWorkerThreads_option1.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setWORKER_THREADS(1);                       // set worker threads to 1
             }
             if (RWorkerThreads_option2.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setWORKER_THREADS(3);                       // set worker threads to 3
             }
             if (RWorkerThreads_option3.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setWORKER_THREADS(5);                       // set worker threads to 5
             }
             if (RWorkerThreads_option4.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setWORKER_THREADS(10);                      // set worker threads to 10
             }
 
             /*================ LightIntensity - screen input handling ===============*/
             if (RLightIntensity_option1.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setLIGHT_INTENSITY((float) 25000);    // set light intensity to 25000
             }
             if (RLightIntensity_option2.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setLIGHT_INTENSITY((float) 40000);    // set light intensity to 40000
             }
             if (RLightIntensity_option3.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setLIGHT_INTENSITY((float) 55000);    // set light intensity to 55000
             }
             if (RLightIntensity_option4.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setLIGHT_INTENSITY((float) 75000);    // set light intensity to 75000
             }
 
             /*================== TouchDepth - screen input handling =================*/
             if (RTouchDepth_option1.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setTOUCH_PLANE_DEPTH((float) 0.1);         // set touch depth to 0.1
             }
             if (RTouchDepth_option2.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setTOUCH_PLANE_DEPTH((float) 0.3);         // set touch depth to 0.3
             }
             if (RTouchDepth_option3.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setTOUCH_PLANE_DEPTH((float) 0.5);         // set touch depth to 0.5
             }
             if (RTouchDepth_option4.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 setTOUCH_PLANE_DEPTH((float) 1.0);        // set touch depth to 1.0
             }
         }
@@ -362,7 +369,7 @@ public class SettingsScreen extends Settings implements Screen
         // if on-phone back button is pressed
         if (Gdx.input.isKeyPressed(Input.Keys.BACK))
         {
-            Gdx.input.vibrate(25);
+            Gdx.input.vibrate(20);
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }

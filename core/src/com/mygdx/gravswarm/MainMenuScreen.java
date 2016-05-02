@@ -23,6 +23,13 @@ public class MainMenuScreen implements Screen
     Texture button4_Exit;
     Texture appBackground;
 
+    // defining our buttons location in the 3D space (340 = button's width, 78 = height)
+    Rectangle Start_button = new Rectangle(600, 450, 340, 78);
+    Rectangle Instructions_button = new Rectangle(600, 360, 340, 78);
+    Rectangle Settings_button = new Rectangle(600, 270, 340, 78);
+    Rectangle Exit_button = new Rectangle(600, 180, 340, 78);
+
+
     public MainMenuScreen(final GravSwarm thisGame)
     {
         game = thisGame;
@@ -32,11 +39,12 @@ public class MainMenuScreen implements Screen
         camera.setToOrtho(false, 1280, 720);
 
         appLogo = new Texture("logo1.png");
+        appBackground = new Texture("test_background.png");
+
         button1_Start = new Texture("1-start.png");
         button2_Instructions = new Texture("2-instructions.png");
         button3_Settings = new Texture("3-settings.png");
         button4_Exit = new Texture("4-exit.png");
-        appBackground = new Texture("test_background.png");
     }
 
     @Override
@@ -67,13 +75,6 @@ public class MainMenuScreen implements Screen
         game.batch.end();
 
 
-        // defining our buttons location in the 3D space
-        Rectangle Start_button = new Rectangle(600, 450, button1_Start.getWidth(), button1_Start.getHeight());
-        Rectangle Instructions_button = new Rectangle(600, 360, button2_Instructions.getWidth(), button2_Instructions.getHeight());
-        Rectangle Settings_button = new Rectangle(600, 270, button3_Settings.getWidth(), button3_Settings.getHeight());
-        Rectangle Exit_button = new Rectangle(600, 180, button4_Exit.getWidth(), button4_Exit.getHeight());
-
-
 
         Gdx.input.setCatchBackKey(false);
 
@@ -86,28 +87,28 @@ public class MainMenuScreen implements Screen
             // if the start button is pressed, go to the Game screen
             if (Start_button.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
             // if the instructions button is pressed, go to the Instructions screen
             if (Instructions_button.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 game.setScreen(new InstructionsScreen(game));
                 dispose();
             }
             // if the settings button is pressed, go to the Settings screen
             if (Settings_button.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 game.setScreen(new SettingsScreen(game));
                 dispose();
             }
             // if the exit button is pressed, exit the app
             if (Exit_button.contains(tmp.x, tmp.y))
             {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 dispose();
                 System.exit(1);
             }

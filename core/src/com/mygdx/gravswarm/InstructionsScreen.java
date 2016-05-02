@@ -23,6 +23,9 @@ public class InstructionsScreen implements Screen
     Texture appBackground;
     Texture backButton;
 
+    // defining BackButton's location in the 3D space (value #3 = button's width, value #4 = button's height)
+    Rectangle RBackButton = new Rectangle(0, 720-86, 100, 86);
+
 
     public InstructionsScreen (final GravSwarm thisGame)
     {
@@ -62,7 +65,6 @@ public class InstructionsScreen implements Screen
 
         game.batch.end();
 
-        Rectangle RBackButton = new Rectangle(0, 720-86, backButton.getWidth(), backButton.getHeight());
 
         // allows us to return to the main menu
         Gdx.input.setCatchBackKey(true);
@@ -73,10 +75,9 @@ public class InstructionsScreen implements Screen
             Vector3 tmp = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(tmp);
 
-
             // if on-screen back button is pressed
             if (RBackButton.contains(tmp.x, tmp.y)) {
-                Gdx.input.vibrate(25);
+                Gdx.input.vibrate(20);
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }
@@ -84,7 +85,7 @@ public class InstructionsScreen implements Screen
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK))
         {
-            Gdx.input.vibrate(25);
+            Gdx.input.vibrate(20);
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }
