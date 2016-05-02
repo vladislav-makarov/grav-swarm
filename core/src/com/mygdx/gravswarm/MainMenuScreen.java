@@ -80,31 +80,34 @@ public class MainMenuScreen implements Screen
         // if the screen is touched, do:
         if (Gdx.input.isTouched())
         {
-            Gdx.input.vibrate(25);
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             camera.unproject(tmp);
 
             // if the start button is pressed, go to the Game screen
             if (Start_button.contains(tmp.x, tmp.y))
             {
+                Gdx.input.vibrate(25);
                 game.setScreen(new GameScreen(game));
                 dispose();
             }
             // if the instructions button is pressed, go to the Instructions screen
             if (Instructions_button.contains(tmp.x, tmp.y))
             {
+                Gdx.input.vibrate(25);
                 game.setScreen(new InstructionsScreen(game));
                 dispose();
             }
             // if the settings button is pressed, go to the Settings screen
             if (Settings_button.contains(tmp.x, tmp.y))
             {
+                Gdx.input.vibrate(25);
                 game.setScreen(new SettingsScreen(game));
                 dispose();
             }
             // if the exit button is pressed, exit the app
             if (Exit_button.contains(tmp.x, tmp.y))
             {
+                Gdx.input.vibrate(25);
                 dispose();
                 System.exit(1);
             }
