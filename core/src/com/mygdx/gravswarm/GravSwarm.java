@@ -18,6 +18,7 @@ public class GravSwarm extends Game
     {
         batch = new SpriteBatch();
         font = new BitmapFont();
+        settings = new Settings();
         this.setScreen(new MainMenuScreen(this));
     }
 
