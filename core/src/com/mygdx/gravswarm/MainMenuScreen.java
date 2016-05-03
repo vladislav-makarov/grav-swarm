@@ -88,7 +88,7 @@ public class MainMenuScreen implements Screen
             if (Start_button.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen());
                 dispose();
             }
             // if the instructions button is pressed, go to the Instructions screen

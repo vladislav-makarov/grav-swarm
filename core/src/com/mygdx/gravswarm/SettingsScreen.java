@@ -259,110 +259,110 @@ public class SettingsScreen extends Settings implements Screen
             if (RNumberOfMoons_option1.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setINITIAL_MOONS_TO_SPAWN(1000);     // set number of moons to 1000
+                game.settings.setINITIAL_MOONS_TO_SPAWN(1000);     // set number of moons to 1000
             }
             if (RNumberOfMoons_option2.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setINITIAL_MOONS_TO_SPAWN(2000);     // set number of moons to 2000
+                game.settings.setINITIAL_MOONS_TO_SPAWN(2000);     // set number of moons to 2000
             }
             if (RNumberOfMoons_option3.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setINITIAL_MOONS_TO_SPAWN(4000);     // set number of moons to 4000
+                game.settings.setINITIAL_MOONS_TO_SPAWN(4000);     // set number of moons to 4000
             }
             if (RNumberOfMoons_option4.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setINITIAL_MOONS_TO_SPAWN(8000);     // set number of moons to 8000
+                game.settings.setINITIAL_MOONS_TO_SPAWN(8000);     // set number of moons to 8000
             }
 
             /*================= BoundaryMode - screen input handling ================*/
             if (RBoundaryMode_option1.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setBOUNDARY_MODE(BOUNDARY_MODE.none);   // set boundary mode to 'none'
+                game.settings.setBOUNDARY_MODE(BOUNDARY_MODE.none);   // set boundary mode to 'none'
             }
             if (RBoundaryMode_option2.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setBOUNDARY_MODE(BOUNDARY_MODE.warp);   // set boundary mode to 'warp'
+                game.settings.setBOUNDARY_MODE(BOUNDARY_MODE.warp);   // set boundary mode to 'warp'
             }
             if (RBoundaryMode_option3.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setBOUNDARY_MODE(BOUNDARY_MODE.reflect);   // set boundary mode to 'reflect'
+                game.settings.setBOUNDARY_MODE(BOUNDARY_MODE.reflect);   // set boundary mode to 'reflect'
             }
             if (RBoundaryMode_option4.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setBOUNDARY_MODE(BOUNDARY_MODE.despawn);   // set boundary mode to 'despawn'
+                game.settings.setBOUNDARY_MODE(BOUNDARY_MODE.despawn);   // set boundary mode to 'despawn'
             }
 
             /*================ WorkerThreads - screen input handling ================*/
             if (RWorkerThreads_option1.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setWORKER_THREADS(1);                       // set worker threads to 1
+                game.settings.setWORKER_THREADS(1);                       // set worker threads to 1
             }
             if (RWorkerThreads_option2.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setWORKER_THREADS(3);                       // set worker threads to 3
+                game.settings.setWORKER_THREADS(3);                       // set worker threads to 3
             }
             if (RWorkerThreads_option3.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setWORKER_THREADS(5);                       // set worker threads to 5
+                game.settings.setWORKER_THREADS(5);                       // set worker threads to 5
             }
             if (RWorkerThreads_option4.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setWORKER_THREADS(10);                      // set worker threads to 10
+                game.settings.setWORKER_THREADS(10);                      // set worker threads to 10
             }
 
             /*================ LightIntensity - screen input handling ===============*/
             if (RLightIntensity_option1.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setLIGHT_INTENSITY((float) 25000);    // set light intensity to 25000
+                game.settings.setLIGHT_INTENSITY((float) 25000);    // set light intensity to 25000
             }
             if (RLightIntensity_option2.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setLIGHT_INTENSITY((float) 40000);    // set light intensity to 40000
+                game.settings.setLIGHT_INTENSITY((float) 40000);    // set light intensity to 40000
             }
             if (RLightIntensity_option3.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setLIGHT_INTENSITY((float) 55000);    // set light intensity to 55000
+                game.settings.setLIGHT_INTENSITY((float) 55000);    // set light intensity to 55000
             }
             if (RLightIntensity_option4.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setLIGHT_INTENSITY((float) 75000);    // set light intensity to 75000
+                game.settings.setLIGHT_INTENSITY((float) 75000);    // set light intensity to 75000
             }
 
             /*================== TouchDepth - screen input handling =================*/
             if (RTouchDepth_option1.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setTOUCH_PLANE_DEPTH((float) 0.1);         // set touch depth to 0.1
+                game.settings.setTOUCH_PLANE_DEPTH((float) 0.1);         // set touch depth to 0.1
             }
             if (RTouchDepth_option2.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setTOUCH_PLANE_DEPTH((float) 0.3);         // set touch depth to 0.3
+                game.settings.setTOUCH_PLANE_DEPTH((float) 0.3);         // set touch depth to 0.3
             }
             if (RTouchDepth_option3.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setTOUCH_PLANE_DEPTH((float) 0.5);         // set touch depth to 0.5
+                game.settings.setTOUCH_PLANE_DEPTH((float) 0.5);         // set touch depth to 0.5
             }
             if (RTouchDepth_option4.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                setTOUCH_PLANE_DEPTH((float) 1.0);        // set touch depth to 1.0
+                game.settings.setTOUCH_PLANE_DEPTH((float) 1.0);        // set touch depth to 1.0
             }
         }
 

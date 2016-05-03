@@ -11,6 +11,7 @@ public class GravSwarm extends Game
 {
     SpriteBatch batch;
     BitmapFont font;
+    public Settings settings;
 
     @Override
     public void create()
