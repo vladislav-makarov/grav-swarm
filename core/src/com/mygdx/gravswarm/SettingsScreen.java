@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 /**
  * Created by Vlad M on 4/18/16.
  */
-public class SettingsScreen extends Settings implements Screen
+public class SettingsScreen implements Screen
 {
     final GravSwarm game;
 
@@ -281,22 +281,22 @@ public class SettingsScreen extends Settings implements Screen
             if (RBoundaryMode_option1.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                game.settings.setBOUNDARY_MODE(BOUNDARY_MODE.none);   // set boundary mode to 'none'
+                game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.none);   // set boundary mode to 'none'
             }
             if (RBoundaryMode_option2.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                game.settings.setBOUNDARY_MODE(BOUNDARY_MODE.warp);   // set boundary mode to 'warp'
+                game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.warp);   // set boundary mode to 'warp'
             }
             if (RBoundaryMode_option3.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                game.settings.setBOUNDARY_MODE(BOUNDARY_MODE.reflect);   // set boundary mode to 'reflect'
+                game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.reflect);   // set boundary mode to 'reflect'
             }
             if (RBoundaryMode_option4.contains(tmp.x, tmp.y))
             {
                 Gdx.input.vibrate(20);
-                game.settings.setBOUNDARY_MODE(BOUNDARY_MODE.despawn);   // set boundary mode to 'despawn'
+                game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.despawn);   // set boundary mode to 'despawn'
             }
 
             /*================ WorkerThreads - screen input handling ================*/
