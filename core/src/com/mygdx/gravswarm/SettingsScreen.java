@@ -3,13 +3,12 @@ package com.mygdx.gravswarm;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
@@ -19,11 +18,11 @@ public class SettingsScreen implements Screen
 {
     final GravSwarm game;
 
-    Stage stage;
-    Table table;
-
     OrthographicCamera camera;
     Vector3 touchPos;
+
+    Sound settingsSelectionSound;
+
     Texture Settings_header;
     Texture appBackground;
     Texture backButton;
@@ -109,14 +108,12 @@ public class SettingsScreen implements Screen
     {
         this.game = thisGame;
 
-        stage = new Stage(new ScreenViewport());
-        table = new Table();
-        Gdx.input.setInputProcessor(stage);
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
 
         touchPos = new Vector3();
+
+        settingsSelectionSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/settings_selection.wav"));
 
         Settings_header = new Texture("settings.png");
         appBackground = new Texture("test_background.png");
@@ -178,9 +175,6 @@ public class SettingsScreen implements Screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
-
-        stage.act(delta);
-        stage.draw();
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
@@ -258,21 +252,25 @@ public class SettingsScreen implements Screen
             /*================ NumberOfMoons - screen input handling ================*/
             if (RNumberOfMoons_option1.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setINITIAL_MOONS_TO_SPAWN(1000);     // set number of moons to 1000
             }
             if (RNumberOfMoons_option2.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setINITIAL_MOONS_TO_SPAWN(2000);     // set number of moons to 2000
             }
             if (RNumberOfMoons_option3.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setINITIAL_MOONS_TO_SPAWN(4000);     // set number of moons to 4000
             }
             if (RNumberOfMoons_option4.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setINITIAL_MOONS_TO_SPAWN(8000);     // set number of moons to 8000
             }
@@ -280,21 +278,25 @@ public class SettingsScreen implements Screen
             /*================= BoundaryMode - screen input handling ================*/
             if (RBoundaryMode_option1.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.none);   // set boundary mode to 'none'
             }
             if (RBoundaryMode_option2.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.warp);   // set boundary mode to 'warp'
             }
             if (RBoundaryMode_option3.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.reflect);   // set boundary mode to 'reflect'
             }
             if (RBoundaryMode_option4.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.despawn);   // set boundary mode to 'despawn'
             }
@@ -302,21 +304,25 @@ public class SettingsScreen implements Screen
             /*================ WorkerThreads - screen input handling ================*/
             if (RWorkerThreads_option1.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setWORKER_THREADS(1);                       // set worker threads to 1
             }
             if (RWorkerThreads_option2.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setWORKER_THREADS(3);                       // set worker threads to 3
             }
             if (RWorkerThreads_option3.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setWORKER_THREADS(5);                       // set worker threads to 5
             }
             if (RWorkerThreads_option4.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setWORKER_THREADS(10);                      // set worker threads to 10
             }
@@ -324,21 +330,25 @@ public class SettingsScreen implements Screen
             /*================ LightIntensity - screen input handling ===============*/
             if (RLightIntensity_option1.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setLIGHT_INTENSITY((float) 25000);    // set light intensity to 25000
             }
             if (RLightIntensity_option2.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setLIGHT_INTENSITY((float) 40000);    // set light intensity to 40000
             }
             if (RLightIntensity_option3.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setLIGHT_INTENSITY((float) 55000);    // set light intensity to 55000
             }
             if (RLightIntensity_option4.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setLIGHT_INTENSITY((float) 75000);    // set light intensity to 75000
             }
@@ -346,21 +356,25 @@ public class SettingsScreen implements Screen
             /*================== TouchDepth - screen input handling =================*/
             if (RTouchDepth_option1.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setTOUCH_PLANE_DEPTH((float) 0.1);         // set touch depth to 0.1
             }
             if (RTouchDepth_option2.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setTOUCH_PLANE_DEPTH((float) 0.3);         // set touch depth to 0.3
             }
             if (RTouchDepth_option3.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setTOUCH_PLANE_DEPTH((float) 0.5);         // set touch depth to 0.5
             }
             if (RTouchDepth_option4.contains(tmp.x, tmp.y))
             {
+                settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setTOUCH_PLANE_DEPTH((float) 1.0);        // set touch depth to 1.0
             }
@@ -402,7 +416,8 @@ public class SettingsScreen implements Screen
     @Override
     public void dispose()
     {
-        stage.dispose();
+        settingsSelectionSound.dispose();
+
         Settings_header.dispose();
         appBackground.dispose();
 

@@ -1,6 +1,7 @@
 package com.mygdx.gravswarm;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -37,14 +38,16 @@ import java.util.concurrent.CyclicBarrier;
 public class GameScreen extends ScreenAdapter {
 	enum ClipPlane{NEAR, FAR, LEFT, RIGHT, TOP, BOTTOM};
 	enum ScreenMode{GRAVITY,PLANECHANGE,SPAWN};
-	enum EdgeMode{NONE, WARP, REFLECT};
+	enum EdgeMode{NONE, WARP, REFLECT,DESPAWN,STOP};
 	float LIGHT_INTENSITIY;
 	float GRAVITY_PLANE_DISTANCE;
 	int MOONS_TO_SPAWN;
 	int THREAD_COUNT;
 	boolean speedCheck;
+	boolean blackScreen;
 	EdgeMode edgeMode;
 	ScreenMode screenMode;
+	GravSwarm game;
 
 	Vector<Moon> moons;
 	Pool<Gravity> freeGravities;
@@ -53,6 +56,7 @@ public class GameScreen extends ScreenAdapter {
 	Vector<GravityHandler>gravityHandlers;
 	Vector<Gravity>gravitiesToBeCulled;
 	Vector<Moon> moonsToReposition;
+	Vector<Moon> moonsToDespawn;
 	Material moonTexture;
 	Ray warpRay;
 	Vector3 workerVec, workerVec2;
@@ -68,9 +72,12 @@ public class GameScreen extends ScreenAdapter {
 	CyclicBarrier barrier;
 
 
-	public GameScreen()
+	public GameScreen(GravSwarm currentGame)
 	{
+		game=currentGame;
 		speedCheck=false;
+		blackScreen=true;
+		setScreenColor(blackScreen);
 		Random rnd=new Random();
 		warpRay=new Ray();
 		workerVec=new Vector3();
@@ -80,6 +87,7 @@ public class GameScreen extends ScreenAdapter {
 		gravitiesToBeCulled=new Vector<Gravity>();
 		moonsToReposition=new Vector<Moon>();
 		gravityHandlers=new Vector<GravityHandler>();
+		moonsToDespawn=new Vector<Moon>();
 		moonTexture=new Material(ColorAttribute.createDiffuse(1,1,1,1));
 		freeGravities=new Pool<Gravity>() {
 			@Override
@@ -88,12 +96,13 @@ public class GameScreen extends ScreenAdapter {
 			}
 		};
 
+		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		LIGHT_INTENSITIY=50000f;
-		GRAVITY_PLANE_DISTANCE=.2f;
-		MOONS_TO_SPAWN=700;
-		THREAD_COUNT=10;
-		edgeMode=EdgeMode.NONE;
+		LIGHT_INTENSITIY=game.settings.getLIGHT_INTENSITY();
+		GRAVITY_PLANE_DISTANCE=game.settings.getTOUCH_PLANE_DEPTH();
+		MOONS_TO_SPAWN=game.settings.getINITIAL_MOONS_TO_SPAWN();
+		THREAD_COUNT=game.settings.getWORKER_THREADS();
+		edgeMode=edgeMode.values()[game.settings.getBOUNDARY_MODE().ordinal()];
 		screenMode=ScreenMode.GRAVITY;
 
 		environment = new Environment();
@@ -178,17 +187,23 @@ public class GameScreen extends ScreenAdapter {
 						case REFLECT:
 							moons.elementAt(moonNumber).reflect();
 							break;
+						case DESPAWN:
+							moonsToDespawn.add(moons.elementAt(moonNumber));
+							break;
+						case STOP:
+							moons.elementAt(moonNumber).scaleVelocity(0f);
+							break;
 					}
 				}
 			}
 			moons.elementAt(moonNumber).move();
 		}
 
-		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		modelBatch.begin(cam);
-		modelBatch.render(moons, environment);
-		//modelBatch.render(visualTouchPlane, environment);
+		if(moons.size()>0)
+			modelBatch.render(moons, environment);
 		modelBatch.end();
 
 		while(gravitiesToBeCulled.size()>0)
@@ -202,6 +217,13 @@ public class GameScreen extends ScreenAdapter {
 			moonsToReposition.elementAt(0).transform.setToTranslation(moonsToReposition.elementAt(0).getNextPosition());
 			moonsToReposition.remove(0);
 		}
+		while(moonsToDespawn.size()>0)
+		{
+			moonsToDespawn.elementAt(0).reset();
+			moons.remove(moonsToDespawn.elementAt(0));
+			moonsToDespawn.remove(0);
+			assignMoons(false);
+		}
 		try {
 			barrier.await();//restart gravity calculations
 		} catch (InterruptedException e) {
@@ -209,6 +231,13 @@ public class GameScreen extends ScreenAdapter {
 		} catch (BrokenBarrierException e) {
 			e.printStackTrace();
 		}
+	}
+
+	void setScreenColor(boolean black)
+	{
+		blackScreen=black;
+		int c=blackScreen?0:1;
+		Gdx.gl.glClearColor(c,c,c,1);
 	}
 
 	void assignMoons(boolean firstrun)
@@ -338,21 +367,18 @@ public class GameScreen extends ScreenAdapter {
 					speedCheck=true;
 					return true;
 				case Input.Keys.E:
-					switch (edgeMode)
-					{
-						case NONE:
-							edgeMode=EdgeMode.WARP;
-							break;
-						case WARP:
-							edgeMode=EdgeMode.REFLECT;
-							break;
-						case REFLECT:
-							edgeMode=EdgeMode.NONE;
-							break;
-					}
+					int tmp=edgeMode.ordinal();
+					++tmp;
+					if(tmp>=edgeMode.values().length)
+						tmp=0;
+					edgeMode=edgeMode.values()[tmp];
 					return true;
 				case Input.Keys.S:
 					screenMode=ScreenMode.SPAWN;
+					return true;
+				case Input.Keys.C:
+					blackScreen=!blackScreen;
+					setScreenColor(blackScreen);
 					return true;
 			}
 			return false;
@@ -650,7 +676,7 @@ public class GameScreen extends ScreenAdapter {
 				if(lowBound==-1)
 					lowBound=0;
 				moonNumber=lowBound;
-				while(moonNumber<highBound)
+				while(moonNumber<highBound&&moons.size()>0)
 				{
 					for(gravityNumber=0;gravityNumber<gravities.size();++gravityNumber)
 					{
