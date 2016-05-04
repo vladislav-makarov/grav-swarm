@@ -9,7 +9,7 @@ public class Settings
     /*==================== Settings class variables ====================*/
     private int INITIAL_MOONS_TO_SPAWN = 2000;
 
-    public enum BOUNDARY_MODE { warp, reflect, despawn, respawn, none }
+    public enum BOUNDARY_MODE {none, warp, reflect, despawn }
     private BOUNDARY_MODE B_MODE_VALUE = BOUNDARY_MODE.none;
 
     private int WORKER_THREADS = 3;
