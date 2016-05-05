@@ -7,9 +7,13 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+
 
 /**
  * Created by Vlad M on 4/18/16.
@@ -20,6 +24,8 @@ public class SettingsScreen implements Screen
 
     OrthographicCamera camera;
     Vector3 touchPos;
+
+    ShapeRenderer shape_render;
 
     Sound settingsSelectionSound;
 
@@ -70,6 +76,14 @@ public class SettingsScreen implements Screen
     Texture Under_Dev;
 
 
+    // Needed for triangle rendering around selected menu options
+    int NumberOfMoons_selected = 0;
+    int BoundaryMode_selected = 0;
+    int WorkerThreads_selected = 0;
+    int LightIntensity_selected = 0;
+    int TouchDepth_selected = 0;
+
+
     // defining BackButton's location in the 3D space (value #3 = button's width, value #4 = button's height)
     Rectangle RBackButton = new Rectangle(0, 720-86, 100, 86);
 
@@ -80,10 +94,10 @@ public class SettingsScreen implements Screen
     Rectangle RNumberOfMoons_option4 = new Rectangle(40+458+40+(107+20)+(108+20)+(110+20), (720-86-100), 109, 62);
 
     // defining BoundaryMode_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
-    Rectangle RBoundaryMode_option1 = new Rectangle(40+409+40, (720-86-100)-(80*1), 113, 62);
-    Rectangle RBoundaryMode_option2 = new Rectangle(40+409+40+(113+20), (720-86-100)-(80*1), 115, 62);
-    Rectangle RBoundaryMode_option3 = new Rectangle(40+409+40+(113+20)+(115+20), (720-86-100)-(80*1), 140, 62);
-    Rectangle RBoundaryMode_option4 = new Rectangle(40+409+40+(113+20)+(115+20)+(140+20), (720-86-100)-(80*1), 191, 62);
+    Rectangle RBoundaryMode_option1 = new Rectangle(40+409+40, (720-86-100)-(80), 113, 62);
+    Rectangle RBoundaryMode_option2 = new Rectangle(40+409+40+(113+20), (720-86-100)-(80), 115, 62);
+    Rectangle RBoundaryMode_option3 = new Rectangle(40+409+40+(113+20)+(115+20), (720-86-100)-(80), 140, 62);
+    Rectangle RBoundaryMode_option4 = new Rectangle(40+409+40+(113+20)+(115+20)+(140+20), (720-86-100)-(80), 191, 62);
 
     // defining WorkerThreads_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
     Rectangle RWorkerThreads_option1 = new Rectangle(40+414+40, (720-86-100)-(80*2), 64, 62);
@@ -110,6 +124,8 @@ public class SettingsScreen implements Screen
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1280, 720);
+
+        shape_render = new ShapeRenderer();
 
         touchPos = new Vector3();
 
@@ -184,7 +200,7 @@ public class SettingsScreen implements Screen
 
         // Drawing elements for the Settings Options
         game.batch.draw(NumberOfMoons, 40, 720-86-100);
-        game.batch.draw(BoundaryMode, 40, (720-86-100)-(80*1));
+        game.batch.draw(BoundaryMode, 40, (720-86-100)-(80));
         game.batch.draw(WorkerThreads, 40,(720-86-100)-(80*2));
         game.batch.draw(GravityMagnitude, 40,(720-86-100)-(80*3));
         game.batch.draw(GravityScalar, 40, (720-86-100)-(80*4));
@@ -198,10 +214,10 @@ public class SettingsScreen implements Screen
         game.batch.draw(NumberOfMoons_option4, 40+458+40+(107+20)+(108+20)+(110+20), 720-86-100);
 
         // Drawing elements for BoundaryMode options
-        game.batch.draw(BoundaryMode_option1, 40+409+40, (720-86-100)-(80*1));
-        game.batch.draw(BoundaryMode_option2, 40+409+40+(113+20), (720-86-100)-(80*1));
-        game.batch.draw(BoundaryMode_option3, 40+409+40+(113+20)+(115+20), (720-86-100)-(80*1));
-        game.batch.draw(BoundaryMode_option4, 40+409+40+(113+20)+(115+20)+(140+20), (720-86-100)-(80*1));
+        game.batch.draw(BoundaryMode_option1, 40+409+40, (720-86-100)-(80));
+        game.batch.draw(BoundaryMode_option2, 40+409+40+(113+20), (720-86-100)-(80));
+        game.batch.draw(BoundaryMode_option3, 40+409+40+(113+20)+(115+20), (720-86-100)-(80));
+        game.batch.draw(BoundaryMode_option4, 40+409+40+(113+20)+(115+20)+(140+20), (720-86-100)-(80));
 
         // Drawing elements for WorkerThreads options
         game.batch.draw(WorkerThreads_option1, 40+414+40, (720-86-100)-(80*2));
@@ -229,6 +245,129 @@ public class SettingsScreen implements Screen
         game.batch.end();
 
 
+        shape_render.setColor(Color.GREEN);
+        shape_render.begin(ShapeType.Line);
+
+        if(NumberOfMoons_selected != 0)
+        {
+            if (NumberOfMoons_selected == 1)
+            {
+                shape_render.rect(40+458+40, (720-86-100), 107, 62);
+                shape_render.rect(40+458+40-1, (720-86-100)-1, 107+1, 62+1);
+            }
+            else if (NumberOfMoons_selected == 2)
+            {
+                shape_render.rect(40+458+40+(107+20), (720-86-100), 108, 62);
+                shape_render.rect(40+458+40+(107+20)-1, (720-86-100)-1, 108+1, 62+1);
+            }
+            else if (NumberOfMoons_selected == 3)
+            {
+                shape_render.rect(40+458+40+(107+20)+(108+20), (720-86-100), 110, 62);
+                shape_render.rect(40+458+40+(107+20)+(108+20)-1, (720-86-100)-1, 110+1, 62+1);
+            }
+            else if (NumberOfMoons_selected == 4)
+            {
+                shape_render.rect(40+458+40+(107+20)+(108+20)+(110+20), (720-86-100), 109, 62);
+                shape_render.rect(40+458+40+(107+20)+(108+20)+(110+20)-1, (720-86-100)-1, 109+1, 62+1);
+            }
+        }
+        if(BoundaryMode_selected != 0)
+        {
+            if (BoundaryMode_selected == 1)
+            {
+                shape_render.rect(40+409+40, (720-86-100)-(80), 113, 62);
+                shape_render.rect(40+409+40-1, (720-86-100)-(80)-1, 113+1, 62+1);
+            }
+            else if (BoundaryMode_selected == 2)
+            {
+                shape_render.rect(40+409+40+(113+20), (720-86-100)-(80), 115, 62);
+                shape_render.rect(40+409+40+(113+20)-1, (720-86-100)-(80)-1, 115+1, 62+1);
+            }
+            else if (BoundaryMode_selected == 3)
+            {
+                shape_render.rect(40+409+40+(113+20)+(115+20), (720-86-100)-(80), 140, 62);
+                shape_render.rect(40+409+40+(113+20)+(115+20)-1, (720-86-100)-(80)-1, 140+1, 62+1);
+            }
+            else if (BoundaryMode_selected == 4)
+            {
+                shape_render.rect(40+409+40+(113+20)+(115+20)+(140+20), (720-86-100)-(80), 191, 62);
+                shape_render.rect(40+409+40+(113+20)+(115+20)+(140+20)-1, (720-86-100)-(80)-1, 191+1, 62+1);
+            }
+        }
+        if(WorkerThreads_selected != 0)
+        {
+            if (WorkerThreads_selected == 1)
+            {
+                shape_render.rect(40+414+40, (720-86-100)-(80*2), 64, 62);
+                shape_render.rect(40+414+40-1, (720-86-100)-(80*2)-1, 64+1, 62+1);
+            }
+            else if (WorkerThreads_selected == 2)
+            {
+                shape_render.rect(40+414+40+(64+20), (720-86-100)-(80*2), 65, 62);
+                shape_render.rect(40+414+40+(64+20)-1, (720-86-100)-(80*2)-1, 65+1, 62+1);
+            }
+            else if (WorkerThreads_selected == 3)
+            {
+                shape_render.rect(40+414+40+(64+20)+(65+20), (720-86-100)-(80*2),  65, 62);
+                shape_render.rect(40+414+40+(64+20)+(65+20)-1, (720-86-100)-(80*2)-1,  65+1, 62+1);
+            }
+            else if (WorkerThreads_selected == 4)
+            {
+                shape_render.rect(40+414+40+(64+20)+(65+20)+(65+20), (720-86-100)-(80*2),  81, 62);
+                shape_render.rect(40+414+40+(64+20)+(65+20)+(65+20)-1, (720-86-100)-(80*2)-1,  81+1, 62+1);
+            }
+        }
+        if(LightIntensity_selected != 0)
+        {
+            if (LightIntensity_selected == 1)
+            {
+                shape_render.rect(40+370+40, (720-86-100)-(80*5), 132, 62);
+                shape_render.rect(40+370+40-1, (720-86-100)-(80*5)-1, 132+1, 62+1);
+            }
+            else if (LightIntensity_selected == 2)
+            {
+                shape_render.rect(40+370+40+(132+20), (720-86-100)-(80*5), 134, 62);
+                shape_render.rect(40+370+40+(132+20)-1, (720-86-100)-(80*5)-1, 134+1, 62+1);
+            }
+            else if (LightIntensity_selected == 3)
+            {
+                shape_render.rect(40+370+40+(132+20)+(134+20), (720-86-100)-(80*5), 132, 62);
+                shape_render.rect(40+370+40+(132+20)+(134+20)-1, (720-86-100)-(80*5)-1, 132+1, 62+1);
+            }
+            else if (LightIntensity_selected == 4)
+            {
+                shape_render.rect(40+370+40+(132+20)+(134+20)+(132+20), (720-86-100)-(80*5), 133, 62);
+                shape_render.rect(40+370+40+(132+20)+(134+20)+(132+20)-1, (720-86-100)-(80*5)-1, 133+1, 62+1);
+            }
+        }
+        if(TouchDepth_selected != 0)
+        {
+            if (TouchDepth_selected == 1)
+            {
+                shape_render.rect(40+324+40, (720-86-100)-(80*6), 89, 62);
+                shape_render.rect(40+324+40-1, (720-86-100)-(80*6)-1, 89+1, 62+1);
+            }
+            else if (TouchDepth_selected == 2)
+            {
+                shape_render.rect(40+324+40+(89+20), (720-86-100)-(80*6), 89, 62);
+                shape_render.rect(40+324+40+(89+20)-1, (720-86-100)-(80*6)-1, 89+1, 62+1);
+            }
+            else if (TouchDepth_selected == 3)
+            {
+                shape_render.rect(40+324+40+(89+20)+(89+20), (720-86-100)-(80*6), 89, 62);
+                shape_render.rect(40+324+40+(89+20)+(89+20)-1, (720-86-100)-(80*6)-1, 89+1, 62+1);
+            }
+            else if (TouchDepth_selected == 4)
+            {
+                shape_render.rect(40+324+40+(89+20)+(89+20)+(89+20), (720-86-100)-(80*6), 88, 62);
+                shape_render.rect(40+324+40+(89+20)+(89+20)+(89+20)-1, (720-86-100)-(80*6)-1, 88+1, 62+1);
+            }
+        }
+
+
+        shape_render.end();
+
+
 
         // allows us to return to the main menu
         Gdx.input.setCatchBackKey(true);
@@ -238,7 +377,6 @@ public class SettingsScreen implements Screen
         {
             Vector3 tmp = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);
             camera.unproject(tmp);
-
 
             // if on-screen back button is pressed
             if (RBackButton.contains(tmp.x, tmp.y))
@@ -252,24 +390,32 @@ public class SettingsScreen implements Screen
             /*================ NumberOfMoons - screen input handling ================*/
             if (RNumberOfMoons_option1.contains(tmp.x, tmp.y))
             {
+                NumberOfMoons_selected = 1;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setINITIAL_MOONS_TO_SPAWN(1000);     // set number of moons to 1000
             }
             if (RNumberOfMoons_option2.contains(tmp.x, tmp.y))
             {
+                NumberOfMoons_selected = 2;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setINITIAL_MOONS_TO_SPAWN(2000);     // set number of moons to 2000
             }
             if (RNumberOfMoons_option3.contains(tmp.x, tmp.y))
             {
+                NumberOfMoons_selected = 3;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setINITIAL_MOONS_TO_SPAWN(4000);     // set number of moons to 4000
             }
             if (RNumberOfMoons_option4.contains(tmp.x, tmp.y))
             {
+                NumberOfMoons_selected = 4;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setINITIAL_MOONS_TO_SPAWN(8000);     // set number of moons to 8000
@@ -278,24 +424,32 @@ public class SettingsScreen implements Screen
             /*================= BoundaryMode - screen input handling ================*/
             if (RBoundaryMode_option1.contains(tmp.x, tmp.y))
             {
+                BoundaryMode_selected = 1;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.none);   // set boundary mode to 'none'
             }
             if (RBoundaryMode_option2.contains(tmp.x, tmp.y))
             {
+                BoundaryMode_selected = 2;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.warp);   // set boundary mode to 'warp'
             }
             if (RBoundaryMode_option3.contains(tmp.x, tmp.y))
             {
+                BoundaryMode_selected = 3;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.reflect);   // set boundary mode to 'reflect'
             }
             if (RBoundaryMode_option4.contains(tmp.x, tmp.y))
             {
+                BoundaryMode_selected = 4;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setBOUNDARY_MODE(Settings.BOUNDARY_MODE.despawn);   // set boundary mode to 'despawn'
@@ -304,24 +458,32 @@ public class SettingsScreen implements Screen
             /*================ WorkerThreads - screen input handling ================*/
             if (RWorkerThreads_option1.contains(tmp.x, tmp.y))
             {
+                WorkerThreads_selected = 1;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setWORKER_THREADS(1);                       // set worker threads to 1
             }
             if (RWorkerThreads_option2.contains(tmp.x, tmp.y))
             {
+                WorkerThreads_selected = 2;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setWORKER_THREADS(3);                       // set worker threads to 3
             }
             if (RWorkerThreads_option3.contains(tmp.x, tmp.y))
             {
+                WorkerThreads_selected = 3;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setWORKER_THREADS(5);                       // set worker threads to 5
             }
             if (RWorkerThreads_option4.contains(tmp.x, tmp.y))
             {
+                WorkerThreads_selected = 4;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setWORKER_THREADS(10);                      // set worker threads to 10
@@ -330,24 +492,32 @@ public class SettingsScreen implements Screen
             /*================ LightIntensity - screen input handling ===============*/
             if (RLightIntensity_option1.contains(tmp.x, tmp.y))
             {
+                LightIntensity_selected = 1;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setLIGHT_INTENSITY((float) 25000);    // set light intensity to 25000
             }
             if (RLightIntensity_option2.contains(tmp.x, tmp.y))
             {
+                LightIntensity_selected = 2;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setLIGHT_INTENSITY((float) 40000);    // set light intensity to 40000
             }
             if (RLightIntensity_option3.contains(tmp.x, tmp.y))
             {
+                LightIntensity_selected = 3;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setLIGHT_INTENSITY((float) 55000);    // set light intensity to 55000
             }
             if (RLightIntensity_option4.contains(tmp.x, tmp.y))
             {
+                LightIntensity_selected = 4;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setLIGHT_INTENSITY((float) 75000);    // set light intensity to 75000
@@ -356,24 +526,32 @@ public class SettingsScreen implements Screen
             /*================== TouchDepth - screen input handling =================*/
             if (RTouchDepth_option1.contains(tmp.x, tmp.y))
             {
+                TouchDepth_selected = 1;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setTOUCH_PLANE_DEPTH((float) 0.1);         // set touch depth to 0.1
             }
             if (RTouchDepth_option2.contains(tmp.x, tmp.y))
             {
+                TouchDepth_selected = 2;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setTOUCH_PLANE_DEPTH((float) 0.3);         // set touch depth to 0.3
             }
             if (RTouchDepth_option3.contains(tmp.x, tmp.y))
             {
+                TouchDepth_selected = 3;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setTOUCH_PLANE_DEPTH((float) 0.5);         // set touch depth to 0.5
             }
             if (RTouchDepth_option4.contains(tmp.x, tmp.y))
             {
+                TouchDepth_selected = 4;
+
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.settings.setTOUCH_PLANE_DEPTH((float) 1.0);        // set touch depth to 1.0
@@ -443,5 +621,7 @@ public class SettingsScreen implements Screen
         WorkerThreads_option2.dispose();
         WorkerThreads_option3.dispose();
         WorkerThreads_option4.dispose();
+
+        shape_render.dispose();
     }
 }
