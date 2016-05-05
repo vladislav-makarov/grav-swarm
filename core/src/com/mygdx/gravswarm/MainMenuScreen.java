@@ -88,8 +88,6 @@ public class MainMenuScreen implements Screen
             // if the start button is pressed, go to the Game screen
             if (Start_button.contains(tmp.x, tmp.y))
             {
-                //shape_render.rect(599, 449, 341, 79);
-
                 menuSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.setScreen(new GameScreen(game));
@@ -109,8 +107,6 @@ public class MainMenuScreen implements Screen
             // if the settings button is pressed, go to the Settings screen
             if (Settings_button.contains(tmp.x, tmp.y))
             {
-                //shape_render.rect(599, 269, 341, 79);
-
                 menuSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.setScreen(new SettingsScreen(game));
@@ -119,8 +115,6 @@ public class MainMenuScreen implements Screen
             // if the exit button is pressed, exit the app
             if (Exit_button.contains(tmp.x, tmp.y))
             {
-                //shape_render.rect(599, 179, 341, 79);
-
                 menuSelectionSound.play();
                 Gdx.input.vibrate(20);
 

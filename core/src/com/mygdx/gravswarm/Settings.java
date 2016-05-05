@@ -7,7 +7,7 @@ package com.mygdx.gravswarm;
 public class Settings
 {
     /*==================== Settings class variables ====================*/
-    private int INITIAL_MOONS_TO_SPAWN = 2000;
+    private int INITIAL_MOONS_TO_SPAWN = 1000;          // changed to 1000, was 2000
 
     public enum BOUNDARY_MODE {none, warp, reflect, despawn }
     private BOUNDARY_MODE B_MODE_VALUE = BOUNDARY_MODE.none;
@@ -15,7 +15,7 @@ public class Settings
     private int WORKER_THREADS = 3;
     private float GRAVITY_MAGNITUDE = 1f;
     private float GRAVITY_SCALAR = 1f;
-    private float LIGHT_INTENSITY = 50000f;
+    private float LIGHT_INTENSITY = 55000f;             // changed to 55000, was 50000
     private float TOUCH_PLANE_DEPTH = 0.3f;
 
 
