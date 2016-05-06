@@ -7,7 +7,7 @@ package com.mygdx.gravswarm;
 public class Settings
 {
     /*==================== Settings class variables ====================*/
-    private int INITIAL_MOONS_TO_SPAWN = 1000;          // changed to 1000, was 2000
+    private int INITIAL_MOONS_TO_SPAWN = 500;           // changed to 500, was 2000
 
     public enum BOUNDARY_MODE {none, warp, reflect, despawn }
     private BOUNDARY_MODE B_MODE_VALUE = BOUNDARY_MODE.none;
