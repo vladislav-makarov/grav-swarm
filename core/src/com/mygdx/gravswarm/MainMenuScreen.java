@@ -97,8 +97,6 @@ public class MainMenuScreen implements Screen
             // if the instructions button is pressed, go to the Instructions screen
             if (Instructions_button.contains(tmp.x, tmp.y))
             {
-                //shape_render.rect(599, 359, 341, 79);
-
                 menuSelectionSound.play();
                 Gdx.input.vibrate(20);
                 game.setScreen(new InstructionsScreen(game));

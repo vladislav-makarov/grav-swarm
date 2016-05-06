@@ -256,6 +256,7 @@ public class SettingsScreen implements Screen
         TouchDepth_selected = game.settings.getTOUCH_PLANE_DEPTH();
 
 
+        shape_render.setProjectionMatrix(camera.combined);
         shape_render.setColor(Color.GREEN);
         shape_render.begin(ShapeType.Line);
 
