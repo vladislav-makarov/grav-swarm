@@ -1,33 +1,35 @@
 package com.mygdx.gravswarm;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Pool;
 
 import java.util.Random;
@@ -48,6 +50,8 @@ public class GameScreen extends ScreenAdapter {
 	EdgeMode edgeMode;
 	ScreenMode screenMode;
 	GravSwarm game;
+	float delta;
+	Random rnd;
 
 	Vector<Moon> moons;
 	Pool<Gravity> freeGravities;
@@ -60,7 +64,15 @@ public class GameScreen extends ScreenAdapter {
 	Material moonTexture;
 	Ray warpRay;
 	Vector3 workerVec, workerVec2;
-	//Stage ui;
+
+	Stage ui;
+	Skin skin;
+
+	TextButton slowButton;
+	TextButton edgeModeButton;
+	TextButton spawnButton;
+	Label rateLabel;
+
 
 	PerspectiveCamera cam;
 	Model modelTemplate;
@@ -69,16 +81,18 @@ public class GameScreen extends ScreenAdapter {
 	Environment environment;
 	//CameraInputController camController;
 	CoreInputProcessor coreInput;
+	InputMultiplexer multiplexer;
 	CyclicBarrier barrier;
 
 
 	public GameScreen(GravSwarm currentGame)
 	{
+
 		game=currentGame;
 		speedCheck=false;
 		blackScreen=true;
 		setScreenColor(blackScreen);
-		Random rnd=new Random();
+		rnd=new Random();
 		warpRay=new Ray();
 		workerVec=new Vector3();
 		workerVec2=new Vector3();
@@ -95,21 +109,99 @@ public class GameScreen extends ScreenAdapter {
 				return new Gravity(1f);
 			}
 		};
-
+		delta=1f;
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
 		LIGHT_INTENSITIY=game.settings.getLIGHT_INTENSITY();
 		GRAVITY_PLANE_DISTANCE=game.settings.getTOUCH_PLANE_DEPTH();
 		MOONS_TO_SPAWN=game.settings.getINITIAL_MOONS_TO_SPAWN();
 		THREAD_COUNT=game.settings.getWORKER_THREADS();
 		edgeMode=edgeMode.values()[game.settings.getBOUNDARY_MODE().ordinal()];
 		screenMode=ScreenMode.GRAVITY;
+		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill();
+		BitmapFont font=new BitmapFont();
+		skin=new Skin();
+		skin.add("white", new Texture(pixmap));
+		skin.add("default", font);
+		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+		textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
+		textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+		textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+		textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+		textButtonStyle.font = skin.getFont("default");
+		Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
+		skin.add("default", textButtonStyle);
+		skin.add("default", labelStyle);
+		ui = new Stage();
+		rateLabel=new Label("Delta: ",skin);
+		rateLabel.setPosition(Gdx.graphics.getWidth()/2-rateLabel.getWidth(),0);
+
+		slowButton = new TextButton("Slow", skin);
+		slowButton.setDisabled(true);
+		slowButton.setHeight(Gdx.graphics.getHeight() / 8);
+		slowButton.setWidth(Gdx.graphics.getWidth() / 8);
+		slowButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				speedCheck = true;
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				speedCheck = false;
+			}
+
+		});
+
+		edgeModeButton=new TextButton("Edgemode: "+edgeMode.name(),skin);
+		edgeModeButton.setDisabled(true);
+		edgeModeButton.setHeight(Gdx.graphics.getHeight() / 8);
+		edgeModeButton.setWidth(Gdx.graphics.getWidth() / 8);
+		edgeModeButton.setPosition(0, Gdx.graphics.getHeight() - edgeModeButton.getHeight());
+		edgeModeButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				int tmp = edgeMode.ordinal();
+				++tmp;
+				if (tmp >= edgeMode.values().length)
+					tmp = 0;
+				edgeMode = edgeMode.values()[tmp];
+				edgeModeButton.setText("Edgemode: " + edgeMode.name());
+				return true;
+			}
+		});
+
+		spawnButton=new TextButton("Spawn",skin);
+		spawnButton.setDisabled(true);
+		spawnButton.setHeight(Gdx.graphics.getHeight() / 8);
+		spawnButton.setWidth(Gdx.graphics.getWidth() / 8);
+		spawnButton.setPosition(Gdx.graphics.getWidth() - spawnButton.getWidth(), Gdx.graphics.getHeight() - spawnButton.getHeight());
+		spawnButton.addListener(new InputListener() {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				screenMode = ScreenMode.SPAWN;
+				return true;
+			}
+
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				screenMode = ScreenMode.GRAVITY;
+			}
+		});
+
+		ui.addActor(slowButton);
+		ui.addActor(edgeModeButton);
+		ui.addActor(spawnButton);
+		ui.addActor(rateLabel);
+
+
+
+
 
 		environment = new Environment();
 		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
 
 		coreInput=new CoreInputProcessor();
-		Gdx.input.setInputProcessor(coreInput);
+		multiplexer=new InputMultiplexer(ui, coreInput);
+		Gdx.input.setInputProcessor(multiplexer);
+		Gdx.input.setCatchBackKey(true);
 
 		modelBatch = new ModelBatch();
 		barrier= new CyclicBarrier(THREAD_COUNT+1);
@@ -123,15 +215,7 @@ public class GameScreen extends ScreenAdapter {
 
 
 		ModelBuilder modelBuilder = new ModelBuilder();
-//		modelTemplate=modelBuilder.createLineGrid(30,30,100,100,moonTexture,VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-//		visualTouchPlane=new ModelInstance(modelTemplate);
 
-		//workerVec.scl(-1000f);
-		//visualTouchPlane.transform.setToLookAt(workerVec,cam.direction);
-		//visualTouchPlane.transform.setToRotation(cam.position, 0);
-		//visualTouchPlane.transform.setToRotation(workerVec, 0);
-		//visualTouchPlane.transform.rotate(cam.up,0);
-		//visualTouchPlane.transform.setFromEulerAngles()
 
 		modelTemplate=modelBuilder.createSphere(5f, 5f, 5f, 8, 5, moonTexture, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 		freeMoons=new Pool<Moon>()
@@ -157,8 +241,10 @@ public class GameScreen extends ScreenAdapter {
 
 
 	@Override
-	public void render(float delta) {
+	public void render(float newDelta) {
 
+		delta=newDelta;
+		rateLabel.setText("FPS: "+1/delta);
 		if(speedCheck)
 		{
 			for(int i=0;i<moons.size();++i)
@@ -205,6 +291,8 @@ public class GameScreen extends ScreenAdapter {
 		if(moons.size()>0)
 			modelBatch.render(moons, environment);
 		modelBatch.end();
+		ui.act();
+		ui.draw();
 
 		while(gravitiesToBeCulled.size()>0)
 		{
@@ -266,7 +354,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 	}
 
-	void singleCoreGravity()
+	void singleCoreGravity()//prototype/testing GravityHandler
 	{
 		Vector3 position=new Vector3();
 		int x=0;
@@ -285,7 +373,13 @@ public class GameScreen extends ScreenAdapter {
 
 	@Override
 	public void dispose () {
-		//model.dispose();
+		int x;
+		for(x=0;x<gravityHandlers.size();++x)
+			gravityHandlers.elementAt(x).end();
+		ui.dispose();
+		modelTemplate.dispose();
+		modelBatch.dispose();
+		skin.dispose();
 	}
 
 	class CoreInputProcessor extends InputAdapter
@@ -312,7 +406,7 @@ public class GameScreen extends ScreenAdapter {
 				gravities.add(touchGravities[pointer]);
 				return true;
 			}
-			if(button==Input.Buttons.LEFT&&screenMode==ScreenMode.SPAWN)
+			if((button==Input.Buttons.LEFT&&screenMode==ScreenMode.SPAWN)||button==Input.Buttons.RIGHT)
 			{
 				downX=x;
 				downY=y;
@@ -331,13 +425,13 @@ public class GameScreen extends ScreenAdapter {
 			return false;
 		}
 		@Override public boolean touchUp(int x, int y, int pointer, int button) {
-			if(button!= Input.Buttons.LEFT) return false;
+			//if(button!= Input.Buttons.LEFT) return false;
 			if (touchGravities[pointer] != null) {
 				gravitiesToBeCulled.add(touchGravities[pointer]);
 				touchGravities[pointer] = null;
 				return true;
 			}
-			if(screenMode == ScreenMode.SPAWN)
+			if((button==Input.Buttons.LEFT&&screenMode==ScreenMode.SPAWN)||button==Input.Buttons.RIGHT)
 			{
 				for (int i = 0; i < 50; ++i) {
 					worldPoint.set(cam.unproject(workerVec.set(downX, downY, 0f)));
@@ -372,6 +466,7 @@ public class GameScreen extends ScreenAdapter {
 					if(tmp>=edgeMode.values().length)
 						tmp=0;
 					edgeMode=edgeMode.values()[tmp];
+					edgeModeButton.setText("Edgemode: "+edgeMode.name());
 					return true;
 				case Input.Keys.S:
 					screenMode=ScreenMode.SPAWN;
@@ -380,6 +475,19 @@ public class GameScreen extends ScreenAdapter {
 					blackScreen=!blackScreen;
 					setScreenColor(blackScreen);
 					return true;
+				case Input.Keys.UP:
+					GRAVITY_PLANE_DISTANCE+=.1f;
+					return true;
+				case Input.Keys.DOWN:
+					GRAVITY_PLANE_DISTANCE-=.1f;
+					return true;
+				case Input.Keys.BACK:
+				case Input.Keys.ESCAPE:
+					Gdx.input.vibrate(20);
+					game.setScreen(new MainMenuScreen(game));
+					dispose();
+					return true;
+
 			}
 			return false;
 		}
@@ -403,16 +511,22 @@ public class GameScreen extends ScreenAdapter {
 	{
 		Vector3 velocity;
 		Vector3 nextPosition;
+		Vector3 workerVec;
+		Vector3 workerVec2;
 		ClipPlane clipPlane;
 		Moon(Model template)
 		{
 			super(template);
 			velocity=new Vector3();
 			nextPosition=new Vector3();
+			workerVec=new Vector3();
+			workerVec2=new Vector3();
 		}
 		void updateVelocity(Vector3 change)
 		{
-			velocity.add(change);
+			workerVec.set(change);
+			workerVec.scl(delta*20);
+			velocity.add(workerVec);
 		}
 
 		public Vector3 getNextPosition() {
@@ -420,7 +534,9 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		void move() {
-			this.transform.translate(velocity);
+			workerVec.set(velocity);
+			workerVec.scl(delta*20);
+			this.transform.translate(workerVec);
 		}
 		void scaleVelocity(float scalar){velocity.scl(scalar);}
 		void updateNextPosition()
@@ -525,7 +641,7 @@ public class GameScreen extends ScreenAdapter {
 			velocity.z*=z;
 
 
-
+//The lines below are the previous versions of this algorithm, none of them work perfectly, but I got tired of it
 //			switch (clipPlane)
 //			{
 //				case NEAR:
@@ -561,7 +677,7 @@ public class GameScreen extends ScreenAdapter {
 //			workerVec.set(cam.frustum.planes[clipPlane.ordinal()].normal);
 //			workerVec.scl(length);
 //			velocity.crs(workerVec);
-//			//velocity.setLength(length);
+//			velocity.setLength(length);
 		}
 	}
 
@@ -597,7 +713,7 @@ public class GameScreen extends ScreenAdapter {
 			this.magnitude=magnitude;
 			this.quadratic=quadratic;
 			light=new PointLight();
-			light.set(0f, 0f, 1f, position, LIGHT_INTENSITIY);
+			light.set(rnd.nextFloat(), rnd.nextFloat(), rnd.nextFloat(), position, LIGHT_INTENSITIY);
 		}
 
 		public void setQuadratic(boolean mode)
@@ -610,7 +726,7 @@ public class GameScreen extends ScreenAdapter {
 		}
 
 		public void setPosition(Vector3 position) {
-			this.position = position;
+			this.position.set(position);
 			light.setPosition(position);
 		}
 
@@ -647,6 +763,7 @@ public class GameScreen extends ScreenAdapter {
 	class GravityHandler extends Thread
 	{
 		int lowBound, highBound;
+		boolean end;
 
 		GravityHandler()
 		{
@@ -657,6 +774,7 @@ public class GameScreen extends ScreenAdapter {
 		{
 			this.lowBound=lowBound;
 			this.highBound=highBound;
+			end=false;
 		}
 
 		public void setBounds(int low, int high)
@@ -664,12 +782,16 @@ public class GameScreen extends ScreenAdapter {
 			lowBound=low;
 			highBound=high;
 		}
+		public void end()
+		{
+			end=true;
+		}
 
 		@Override public void run()
 		{
 			int gravityNumber,moonNumber;
 			Vector3 position=new Vector3();
-			while(!Thread.interrupted())
+			while(!end)
 			{
 				if(highBound==-1)
 					highBound=moons.size();
