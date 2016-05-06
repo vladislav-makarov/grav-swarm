@@ -60,7 +60,7 @@ public class InstructionsScreen implements Screen
         game.batch.begin();
         game.batch.draw(appBackground, 0, 0);
         game.batch.draw(Instructions_header, 0, 720-86);
-        game.batch.draw(Instructions_text, 1280/2 - 1062/2, 25);
+        game.batch.draw(Instructions_text, 1280/2 - 1059/2, 65);
         game.batch.draw(backButton, 0, 720-86);
 
         game.batch.end();

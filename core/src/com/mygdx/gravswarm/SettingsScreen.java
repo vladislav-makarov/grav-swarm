@@ -114,7 +114,7 @@ public class SettingsScreen implements Screen
     Rectangle RTouchDepth_option1 = new Rectangle(40+324+40, (720-86-100)-(80*6), 89, 62);
     Rectangle RTouchDepth_option2 = new Rectangle(40+324+40+(89+20), (720-86-100)-(80*6), 89, 62);
     Rectangle RTouchDepth_option3 = new Rectangle(40+324+40+(89+20)+(89+20), (720-86-100)-(80*6), 89, 62);
-    Rectangle RTouchDepth_option4 = new Rectangle(40+324+40+(89+20)+(89+20)+(89+20), (720-86-100)-(80*6), 88, 62);
+    Rectangle RTouchDepth_option4 = new Rectangle(40+324+40+(89+20)+(89+20)+(89+20), (720-86-100)-(80*6), 89, 62);
 
 
     public SettingsScreen (final GravSwarm thisGame)
@@ -359,10 +359,10 @@ public class SettingsScreen implements Screen
             shape_render.rect(40+324+40+(89+20)+(89+20), (720-86-100)-(80*6), 89, 62);
             shape_render.rect(40+324+40+(89+20)+(89+20)-1, (720-86-100)-(80*6)-1, 89+2, 62+2);
         }
-        else if (TouchDepth_selected == 1.0f)
+        else if (TouchDepth_selected == 0.7f)
         {
-            shape_render.rect(40+324+40+(89+20)+(89+20)+(89+20), (720-86-100)-(80*6), 88, 62);
-            shape_render.rect(40+324+40+(89+20)+(89+20)+(89+20)-1, (720-86-100)-(80*6)-1, 88+2, 62+2);
+            shape_render.rect(40+324+40+(89+20)+(89+20)+(89+20), (720-86-100)-(80*6), 89, 62);
+            shape_render.rect(40+324+40+(89+20)+(89+20)+(89+20)-1, (720-86-100)-(80*6)-1, 89+2, 62+2);
         }
 
 
@@ -515,7 +515,7 @@ public class SettingsScreen implements Screen
             {
                 settingsSelectionSound.play();
                 Gdx.input.vibrate(20);
-                game.settings.setTOUCH_PLANE_DEPTH((float) 1.0);        // set touch depth to 1.0
+                game.settings.setTOUCH_PLANE_DEPTH((float) 0.7);         // set touch depth to 0.7
             }
         }
 
