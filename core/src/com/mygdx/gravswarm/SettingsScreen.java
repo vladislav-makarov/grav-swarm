@@ -42,6 +42,7 @@ public class SettingsScreen implements Screen
     Texture TouchDepth;
 
     // Declaration of textures for NumberOfMoons options
+    Texture NumberOfMoons_option0;
     Texture NumberOfMoons_option1;
     Texture NumberOfMoons_option2;
     Texture NumberOfMoons_option3;
@@ -87,10 +88,11 @@ public class SettingsScreen implements Screen
     Rectangle RBackButton = new Rectangle(0, 720-86, 100, 86);
 
     // defining NumberOfMoons_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
-    Rectangle RNumberOfMoons_option1 = new Rectangle(40+458+40, (720-86-100), 107, 62);
-    Rectangle RNumberOfMoons_option2 = new Rectangle(40+458+40+(107+20), (720-86-100), 108, 62);
-    Rectangle RNumberOfMoons_option3 = new Rectangle(40+458+40+(107+20)+(108+20), (720-86-100), 110, 62);
-    Rectangle RNumberOfMoons_option4 = new Rectangle(40+458+40+(107+20)+(108+20)+(110+20), (720-86-100), 109, 62);
+    Rectangle RNumberOfMoons_option0 = new Rectangle(40+458+40, (720-86-100), 84, 62);
+    Rectangle RNumberOfMoons_option1 = new Rectangle(40+458+40+(84+20), (720-86-100), 107, 62);
+    Rectangle RNumberOfMoons_option2 = new Rectangle(40+458+40+(84+20)+(107+20), (720-86-100), 108, 62);
+    Rectangle RNumberOfMoons_option3 = new Rectangle(40+458+40+(84+20)+(107+20)+(108+20), (720-86-100), 110, 62);
+    Rectangle RNumberOfMoons_option4 = new Rectangle(40+458+40+(84+20)+(107+20)+(108+20)+(110+20), (720-86-100), 109, 62);
 
     // defining BoundaryMode_options locations in the 3D space (value #3 = texture's width, value #4 = texture's height)
     Rectangle RBoundaryMode_option1 = new Rectangle(40+409+40, (720-86-100)-(80), 113, 62);
@@ -144,6 +146,7 @@ public class SettingsScreen implements Screen
         TouchDepth = new Texture("SettingsOptions/7-touch_depth.png");
 
         // Options for NumberOfMoons options
+        NumberOfMoons_option0 = new Texture("SettingsOptions/1_Options/1_option0.png");
         NumberOfMoons_option1 = new Texture("SettingsOptions/1_Options/1_option1.png");
         NumberOfMoons_option2 = new Texture("SettingsOptions/1_Options/1_option2.png");
         NumberOfMoons_option3 = new Texture("SettingsOptions/1_Options/1_option3.png");
@@ -207,10 +210,11 @@ public class SettingsScreen implements Screen
         game.batch.draw(TouchDepth, 40, (720-86-100)-(80*6));
 
         // Drawing elements for NumberOfMoons options
-        game.batch.draw(NumberOfMoons_option1, 40+458+40, 720-86-100);
-        game.batch.draw(NumberOfMoons_option2, 40+458+40+(107+20), 720-86-100);
-        game.batch.draw(NumberOfMoons_option3, 40+458+40+(107+20)+(108+20), 720-86-100);
-        game.batch.draw(NumberOfMoons_option4, 40+458+40+(107+20)+(108+20)+(110+20), 720-86-100);
+        game.batch.draw(NumberOfMoons_option0, 40+458+40, 720-86-100);
+        game.batch.draw(NumberOfMoons_option1, 40+458+40+(84+20), 720-86-100);
+        game.batch.draw(NumberOfMoons_option2, 40+458+40+(84+20)+(107+20), 720-86-100);
+        game.batch.draw(NumberOfMoons_option3, 40+458+40+(84+20)+(107+20)+(108+20), 720-86-100);
+        game.batch.draw(NumberOfMoons_option4, 40+458+40+(84+20)+(107+20)+(108+20)+(110+20), 720-86-100);
 
         // Drawing elements for BoundaryMode options
         game.batch.draw(BoundaryMode_option1, 40+409+40, (720-86-100)-(80));
@@ -256,25 +260,30 @@ public class SettingsScreen implements Screen
         shape_render.begin(ShapeType.Line);
 
         // Render shapes for NumberOfMoons
-        if (NumberOfMoons_selected == 1000)
+        if (NumberOfMoons_selected == 500)
         {
-            shape_render.rect(40+458+40, (720-86-100), 107, 62);
-            shape_render.rect(40+458+40-1, (720-86-100)-1, 107+2, 62+2);
+            shape_render.rect(40+458+40, (720-86-100), 84, 62);
+            shape_render.rect(40+458+40-1, (720-86-100)-1, 84+2, 62+2);
+        }
+        else if (NumberOfMoons_selected == 1000)
+        {
+            shape_render.rect(40+458+40+(84+20), (720-86-100), 107, 62);
+            shape_render.rect(40+458+40+(84+20)-1, (720-86-100)-1, 107+2, 62+2);
         }
         else if (NumberOfMoons_selected == 2000)
         {
-            shape_render.rect(40+458+40+(107+20), (720-86-100), 108, 62);
-            shape_render.rect(40+458+40+(107+20)-1, (720-86-100)-1, 108+2, 62+2);
+            shape_render.rect(40+458+40+(84+20)+(107+20), (720-86-100), 108, 62);
+            shape_render.rect(40+458+40+(84+20)+(107+20)-1, (720-86-100)-1, 108+2, 62+2);
         }
         else if (NumberOfMoons_selected == 4000)
         {
-            shape_render.rect(40+458+40+(107+20)+(108+20), (720-86-100), 110, 62);
-            shape_render.rect(40+458+40+(107+20)+(108+20)-1, (720-86-100)-1, 110+2, 62+2);
+            shape_render.rect(40+458+40+(84+20)+(107+20)+(108+20), (720-86-100), 110, 62);
+            shape_render.rect(40+458+40+(84+20)+(107+20)+(108+20)-1, (720-86-100)-1, 110+2, 62+2);
         }
         else if (NumberOfMoons_selected == 8000)
         {
-            shape_render.rect(40+458+40+(107+20)+(108+20)+(110+20), (720-86-100), 109, 62);
-            shape_render.rect(40+458+40+(107+20)+(108+20)+(110+20)-1, (720-86-100)-1, 109+2, 62+2);
+            shape_render.rect(40+458+40+(84+20)+(107+20)+(108+20)+(110+20), (720-86-100), 109, 62);
+            shape_render.rect(40+458+40+(84+20)+(107+20)+(108+20)+(110+20)-1, (720-86-100)-1, 109+2, 62+2);
         }
 
         // Render shapes for BoundaryMode
@@ -389,6 +398,12 @@ public class SettingsScreen implements Screen
 
 
             /*================ NumberOfMoons - screen input handling ================*/
+            if (RNumberOfMoons_option0.contains(tmp.x, tmp.y))
+            {
+                settingsSelectionSound.play();
+                Gdx.input.vibrate(20);
+                game.settings.setINITIAL_MOONS_TO_SPAWN(500);      // set number of moons to 500
+            }
             if (RNumberOfMoons_option1.contains(tmp.x, tmp.y))
             {
                 settingsSelectionSound.play();
@@ -568,6 +583,7 @@ public class SettingsScreen implements Screen
         LightIntensity.dispose();
         TouchDepth.dispose();
 
+        NumberOfMoons_option0.dispose();
         NumberOfMoons_option1.dispose();
         NumberOfMoons_option2.dispose();
         NumberOfMoons_option3.dispose();
@@ -582,6 +598,18 @@ public class SettingsScreen implements Screen
         WorkerThreads_option2.dispose();
         WorkerThreads_option3.dispose();
         WorkerThreads_option4.dispose();
+
+        LightIntensity_option1.dispose();
+        LightIntensity_option2.dispose();
+        LightIntensity_option3.dispose();
+        LightIntensity_option4.dispose();
+
+        TouchDepth_option1.dispose();
+        TouchDepth_option2.dispose();
+        TouchDepth_option3.dispose();
+        TouchDepth_option4.dispose();
+
+        Under_Dev.dispose();
 
         shape_render.dispose();
     }
