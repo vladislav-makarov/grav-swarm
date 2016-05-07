@@ -376,9 +376,6 @@ public class GameScreen extends ScreenAdapter {
 		int x;
 		for(x=0;x<gravityHandlers.size();++x)
 			gravityHandlers.elementAt(x).end();
-		ui.dispose();
-		modelTemplate.dispose();
-		modelBatch.dispose();
 		skin.dispose();
 	}
 
